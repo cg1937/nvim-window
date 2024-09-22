@@ -227,6 +227,15 @@ function M.pick()
     return api.nvim_win_get_config(id).relative == ''
   end, api.nvim_tabpage_list_wins(0))
 
+  if #windows == 2 then
+    for _, win in ipairs(windows) do
+      if win ~= api.nvim_get_current_win() then
+        api.nvim_set_current_win(win)
+        return
+      end
+    end
+  end
+
   local window_keys = window_keys(windows)
   local hints_state = show_hints(window_keys, true)
   local key = get_char()
